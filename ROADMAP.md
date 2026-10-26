@@ -50,3 +50,13 @@ Roadmap items are **planned, not delivered**. Track each implementation as a Git
 ## Priorities
 
 Security, honest performance claims, network availability, and operator consent are release blockers, not stretch goals.
+
+## New v0.2.0-alpha implementation notes
+
+- [x] Private, authenticated TLS 1.3 TCP egress proof of concept with explicit allowlist
+- [x] Loopback-only HTTP CONNECT client for software supporting HTTP proxies
+- [x] Generate one-time credentials with ECDSA test CA; never commit secrets
+- [x] Integration tests of end-to-end TCP relay and rejection of unapproved targets
+- [ ] Security audit, key revocation, client identities per device, signed releases and peer enrollment
+- [ ] Consent-based real WireGuard/UDP dataplane for gaming, with measurable direct-vs-relay results
+- [ ] Apps, NAT traversal, bootstrap peer discovery and network reliability trials
