@@ -26,6 +26,8 @@ go run ./cmd/openroute route --mode gaming --host steamcommunity.com
 go run ./cmd/openroute rank --mode gaming
 ```
 
+For experimental consent-based UDP echo RTT/jitter checks, see [UDP diagnostics](docs/udp-diagnostics.md). They are **not** real game-server ping or a VPN.
+
 **What these commands do:** measure TCP connection setup, simulate routing-policy decisions, and rank manually provided peer metrics. They do not proxy actual traffic. TCP-connect time is not game ping. The included example peers are fictional.
 
 ## Goals & principles
