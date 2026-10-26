@@ -3,10 +3,12 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	"flag"
 	"fmt"
+	"net"
 	"os"
 	"strings"
 	"time"
@@ -54,6 +56,37 @@ func run(args []string) error {
 			return err
 		}
 		return printJSON(result)
+	case "udp-probe":
+		fs := flag.NewFlagSet("udp-probe", flag.ContinueOnError)
+		addr := fs.String("addr", "127.0.0.1:29381", "consenting OpenRoute echo peer host:port")
+		count := fs.Int("count", 5, "number of authenticated UDP echoes")
+		timeout := fs.Duration("timeout", time.Second, "timeout for each echo")
+		if err := fs.Parse(args[1:]); err != nil {
+			return err
+		}
+		if fs.NArg() != 0 {
+			return errors.New("unexpected positional arguments")
+		}
+		result, err := probe.UDP(*addr, os.Getenv("OPENROUTE_UDP_TOKEN"), *count, *timeout)
+		if err != nil {
+			return err
+		}
+		return printJSON(result)
+	case "udp-listen":
+		fs := flag.NewFlagSet("udp-listen", flag.ContinueOnError)
+		bind := fs.String("bind", "127.0.0.1:29381", "listen address, loopback only by default")
+		if err := fs.Parse(args[1:]); err != nil {
+			return err
+		}
+		if fs.NArg() != 0 {
+			return errors.New("unexpected positional arguments")
+		}
+		conn, err := net.ListenPacket("udp", *bind)
+		if err != nil {
+			return err
+		}
+		fmt.Fprintln(os.Stderr, "OpenRoute authenticated UDP diagnostics listener:", conn.LocalAddr())
+		return probe.ServeUDP(context.Background(), conn, os.Getenv("OPENROUTE_UDP_TOKEN"))
 	case "route":
 		fs := flag.NewFlagSet("route", flag.ContinueOnError)
 		host := fs.String("host", "", "destination hostname")
@@ -113,9 +146,12 @@ func usage() {
 Usage:
   openroute version
   openroute probe --host example.org --port 443 --count 5
+  openroute udp-listen --bind 127.0.0.1:29381
+  openroute udp-probe --addr 127.0.0.1:29381 --count 5
   openroute route --mode gaming --host steamcommunity.com --config config.example.json
   openroute rank --mode gaming --input peers.example.json
 
-Metrics are TCP connection measurements, not ICMP ping or game UDP RTT.
+TCP probe metrics are connection setup times. Authenticated UDP metrics are synthetic peer RTT, not actual game ping.
+For UDP diagnostics set OPENROUTE_UDP_TOKEN to the same random 16+-byte secret on consenting peers.
 See README.md and docs/architecture.md before deploying any exit nodes.`)
 }
