@@ -2,7 +2,7 @@
 
 **Open-source research project for adaptive, decentralized network access — Windows & Android.**
 
-> **Status: v0.1.0-dev, foundational CLI only. NOT a functional VPN, circumvention app, game accelerator, or security-reviewed tunnel.**
+> **Status: v0.1.1-dev, foundational CLI only. NOT a functional VPN, circumvention app, game accelerator, or security-reviewed tunnel.**
 
 We are designing one client with three selectable profiles:
 
