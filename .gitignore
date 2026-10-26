@@ -11,3 +11,9 @@ dist/
 *.pem
 config.local.json
 peers.local.json
+
+# Private mutual-TLS identities (NEVER commit)
+identities/
+*.key
+*.p12
+*.pfx
