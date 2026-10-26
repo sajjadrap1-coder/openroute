@@ -1,0 +1,5 @@
+[
+  {"id":"peer-a-example", "latency_ms":42, "jitter_ms":3.5, "loss_percent":0.2, "throughput_mbps":50},
+  {"id":"peer-b-example", "latency_ms":84, "jitter_ms":1.2, "loss_percent":0.0, "throughput_mbps":200},
+  {"id":"peer-c-example", "latency_ms":29, "jitter_ms":19, "loss_percent":2.0, "throughput_mbps":8}
+]

@@ -1,0 +1,13 @@
+*.exe
+*.out
+*.test
+.DS_Store
+.idea/
+.vscode/
+bin/
+dist/
+.env
+*.key
+*.pem
+config.local.json
+peers.local.json
