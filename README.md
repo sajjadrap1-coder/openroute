@@ -54,3 +54,7 @@ Contributions welcome in Go, Android/Kotlin, Windows, transport protocols, distr
 ## License
 
 MIT, see [`LICENSE`](LICENSE). This is an experimental project and has not undergone a security audit.
+
+## v0.2.0-alpha experimental real TCP relay (new)
+
+**Separate executable:** `go build -o openroute-tunnel ./cmd/openroute-tunnel`. It provides `init`, `relay`, and `proxy` commands, implementing mutual TLS 1.3, explicit exit allowlists, and an HTTP CONNECT loopback proxy. This is **TCP-only** and not a VPN, P2P mesh, or a game-UDP tunnel. See [full English guide](docs/tunnel-quickstart.md) and [راهنمای فارسی](docs/tunnel-quickstart.fa.md). All egress is opt-in and scoped to operator-approved destinations.
