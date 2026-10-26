@@ -1,8 +1,9 @@
 @echo off
 setlocal EnableExtensions DisableDelayedExpansion
-cd /d "%~dp0\.."
-set "APP=%~dp0..\OpenRoute-Tunnel-Windows-x64-v0.2.0-alpha.exe"
-if not exist "%APP%" set "APP=%~dp0OpenRoute-Tunnel-Windows-x64-v0.2.0-alpha.exe"
+set "BASEDIR=%~dp0"
+if not exist "%BASEDIR%OpenRoute-Tunnel-Windows-x64-v0.2.0-alpha.exe" set "BASEDIR=%~dp0..\"
+cd /d "%BASEDIR%"
+set "APP=%BASEDIR%OpenRoute-Tunnel-Windows-x64-v0.2.0-alpha.exe"
 if not exist "%APP%" (
   echo OpenRoute executable not found next to this launcher.
   echo Download the Windows alpha package and keep its directory structure.
