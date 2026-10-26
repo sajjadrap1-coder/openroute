@@ -12,10 +12,10 @@ if not exist "%APP%" (
 )
 :menu
 cls
- echo ===========================================
+echo ===========================================
 echo   OpenRoute Tunnel v0.2.0-alpha
  echo   Private TLS 1.3 TCP relay - NOT a VPN
-echo ===========================================
+ echo ===========================================
 echo 1. Generate one-time mutual TLS identities
  echo 2. Start local HTTP CONNECT proxy
  echo 3. Start LOCAL TEST relay only
