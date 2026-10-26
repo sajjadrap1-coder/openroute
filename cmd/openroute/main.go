@@ -18,7 +18,7 @@ import (
 	"github.com/sajjadrap1-coder/openroute/internal/score"
 )
 
-const version = "0.1.0-dev"
+const version = "0.1.1-dev"
 
 func main() {
 	if err := run(os.Args[1:]); err != nil {
@@ -141,7 +141,7 @@ func printJSON(value any) error {
 }
 
 func usage() {
-	fmt.Println(`OpenRoute v0.1.0-dev — network research toolkit (not yet a VPN)
+	fmt.Println(`OpenRoute v0.1.1-dev — network research toolkit (not yet a VPN)
 
 Usage:
   openroute version
