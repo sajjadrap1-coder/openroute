@@ -18,7 +18,7 @@ import (
 	"github.com/sajjadrap1-coder/openroute/internal/score"
 )
 
-const version = "0.1.1-dev"
+const version = "0.2.1-dev"
 
 func main() {
 	if err := run(os.Args[1:]); err != nil {
@@ -52,6 +52,24 @@ func run(args []string) error {
 			return errors.New("--host is required")
 		}
 		result, err := probe.TCP(*host, *port, *count, *timeout)
+		if err != nil {
+			return err
+		}
+		return printJSON(result)
+	case "compare":
+		fs := flag.NewFlagSet("compare", flag.ContinueOnError)
+		host := fs.String("host", "", "destination hostname/IP (test the actual service endpoint)")
+		port := fs.Int("port", 443, "destination TCP port")
+		proxy := fs.String("socks", "127.0.0.1:10808", "local SOCKS5 address")
+		count := fs.Int("count", 5, "comparisons, 1-30 per path")
+		timeout := fs.Duration("timeout", 1500*time.Millisecond, "each path timeout")
+		if err := fs.Parse(args[1:]); err != nil {
+			return err
+		}
+		if fs.NArg() != 0 {
+			return errors.New("unexpected positional arguments")
+		}
+		result, err := probe.ComparePaths(*host, *port, *proxy, *count, *timeout)
 		if err != nil {
 			return err
 		}
@@ -141,16 +159,18 @@ func printJSON(value any) error {
 }
 
 func usage() {
-	fmt.Println(`OpenRoute v0.1.1-dev — network research toolkit (not yet a VPN)
+	fmt.Println(`OpenRoute v0.2.1-dev — network research toolkit (not yet a VPN)
 
 Usage:
   openroute version
   openroute probe --host example.org --port 443 --count 5
+  openroute compare --host example.org --port 443 --socks 127.0.0.1:10808 --count 5
   openroute udp-listen --bind 127.0.0.1:29381
   openroute udp-probe --addr 127.0.0.1:29381 --count 5
   openroute route --mode gaming --host steamcommunity.com --config config.example.json
   openroute rank --mode gaming --input peers.example.json
 
+Compare measures direct vs local SOCKS5 TCP setup; neither is real game latency.
 TCP probe metrics are connection setup times. Authenticated UDP metrics are synthetic peer RTT, not actual game ping.
 For UDP diagnostics set OPENROUTE_UDP_TOKEN to the same random 16+-byte secret on consenting peers.
 See README.md and docs/architecture.md before deploying any exit nodes.`)
