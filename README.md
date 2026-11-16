@@ -2,7 +2,7 @@
 
 **Open-source research project for adaptive, decentralized network access — Windows & Android.**
 
-> **Status: v0.1.1-dev, foundational CLI only. NOT a functional VPN, circumvention app, game accelerator, or security-reviewed tunnel.**
+> **Status: v0.2.1-dev, foundational CLI only. NOT a functional VPN, circumvention app, game accelerator, or security-reviewed tunnel.**
 
 We are designing one client with three selectable profiles:
 
@@ -22,6 +22,7 @@ Requires Go 1.23+ for building, no external Go dependencies. In this folder:
 go test ./...
 go run ./cmd/openroute version
 go run ./cmd/openroute probe --host example.org --port 443 --count 5
+go run ./cmd/openroute compare --host example.org --port 443 --socks 127.0.0.1:10808 --count 8
 go run ./cmd/openroute route --mode gaming --host steamcommunity.com
 go run ./cmd/openroute rank --mode gaming
 ```
@@ -58,3 +59,7 @@ MIT, see [`LICENSE`](LICENSE). This is an experimental project and has not under
 ## v0.2.0-alpha experimental real TCP relay (new)
 
 **Separate executable:** `go build -o openroute-tunnel ./cmd/openroute-tunnel`. It provides `init`, `relay`, and `proxy` commands, implementing mutual TLS 1.3, explicit exit allowlists, and an HTTP CONNECT loopback proxy. This is **TCP-only** and not a VPN, P2P mesh, or a game-UDP tunnel. See [full English guide](docs/tunnel-quickstart.md) and [راهنمای فارسی](docs/tunnel-quickstart.fa.md). All egress is opt-in and scoped to operator-approved destinations.
+
+### Network route diagnostics
+
+The `compare` command now measures **direct TCP setup** versus **the same TCP target through an already-running local SOCKS5 proxy** (for example Xray bound to `127.0.0.1:10808`). It does not adjust BGP, remove ISP hops, or measure game UDP RTT. Use actual service endpoints and test from the user's own connection. See [low latency routing guide (FA)](docs/low-latency-routing.fa.md).
