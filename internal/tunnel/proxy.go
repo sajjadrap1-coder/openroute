@@ -37,7 +37,7 @@ func (p *Proxy) Serve(ctx context.Context, listener net.Listener) error {
 		_ = srv.Shutdown(shutdown)
 	}()
 	err := srv.Serve(listener)
-	if errors.Is(err, http.ErrServerClosed) {
+	if errors.Is(err, http.ErrServerClosed) || (errors.Is(err, net.ErrClosed) && ctx.Err() != nil) {
 		return nil
 	}
 	return err
